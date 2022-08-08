@@ -25,7 +25,7 @@ echo namespace Delta.Application.%entidad%Commands
 echo {
 echo     /// ^<summary^>
 echo     /// Class Create%entidad%Command.
-echo     /// Implements the ^<see cref="MediatR.IRequest{Result^)}" /^>
+echo     /// Implements the ^<see cref="MediatR.IRequest{Result}" /^>
 echo     /// ^</summary^>
 echo     /// ^<seealso cref="MediatR.IRequest{Result}"/^>
 echo     public class Create%entidad%Command : IRequest^<Result^>
