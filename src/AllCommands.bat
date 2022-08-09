@@ -2,7 +2,7 @@
 set idEntidad=Id
 
 @REM Array de entidades
-set entidades=UsuariosPreferencias preferenciasSistema
+set entidades=UsuariosPreferencias PreferenciasSistema
 
 @REM Directorio de controladores
 mkdir dist\Controllers
@@ -753,7 +753,7 @@ echo:
 echo       public int      Status { get; set; }
 echo     }
 echo }
-) >  dist\Models\%%a.cs
+) >  dist\Models\%%aModel.cs
 
 ))
 @REM Fin del ciclo for
