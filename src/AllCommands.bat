@@ -804,6 +804,6 @@ echo }
   echo         }
   echo     }
   echo }
-  ) >  dist\Configuration\%%a.cs
+  ) >  dist\Configuration\%%aConfiguration.cs
 ))
 @REM Fin del ciclo for
