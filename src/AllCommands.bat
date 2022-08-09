@@ -2,7 +2,7 @@
 set idEntidad=Id
 
 :: Array de entidades
-set entidades=Playera  Gorra Lentes Sombrero Zapatos Pantalon
+set entidades=UsuariosPreferencias preferenciasSistema
 
 :: Directorio de controladores
 mkdir dist\Controllers
@@ -199,32 +199,30 @@ mkdir dist\Commands\%%w\Commands
   echo             /// ^<param name="request"^>The request.^</param^>
   echo             /// ^<param name="cancellationToken"^>The cancellation token.^</param^>
   echo             /// ^<returns^>Result^</returns^>
-  echo             public async Task^<Result^> Handle^(Delete%%wCommand request, CancellationToken cancellationToken^)
+  echo              public async Task<Result> Handle(DeleteGruposUsuariosCommand request, CancellationToken cancellationToken)
   echo             {
-  echo:                 
-  echo                 IEnumerable^<%%w^> entitys = await _context.%%w.Where^(o =^> request._id.Ids.Contains^(^(int^)o.%idEntidad%^)^).ToListAsync^(cancellationToken^);
-  echo                 foreach^(%%w entity in entitys^)
+  echo:                  
+  echo                 IEnumerable<GruposUsuarios> entitys = await _context.GruposUsuarios.Where(o => request._id.Ids.Contains((int)o.Id)).ToListAsync(cancellationToken);
+  echo                 foreach(GruposUsuarios entity in entitys)
   echo                 {
   echo                     entity.Status = -1;
   echo                 }
-  echo:                  
+  echo:                   
   echo                 try
   echo                 {
-  echo                     _context.%%w.UpdateRange^(entitys^);
-  echo                     await _context.SaveChangesAsync^(cancellationToken^);
-  echo                     return Result.Success^(^);
+  echo                     _context.GruposUsuarios.UpdateRange(entitys);
+  echo                     await _context.SaveChangesAsync(cancellationToken);
+  echo                     return Result.Success();
   echo                 }
-  echo                 catch ^(DbUpdateException ex^)
+  echo                 catch (DbUpdateException ex)
   echo                 {
-  echo                     returname="ActionsTable"^>ActionsTable.^</param^>
-  echo         public Delete%%wCommand^(ActionsTable id^)
-  echo         {
-  echo             _id = idn Result.Failure^(new[]{ ex.Message }^);
+  echo                     return Result.Failure(new[]{ ex.Message });
   echo                 }
   echo             }
   echo         }
   echo     }
   echo }
+  echo 
   ) >   dist\Commands\%%w\Commands\Delete%%wCommand.cs
 
 :: ------------------------------------------- Seccion de SUSPEND -------------------------------------------
