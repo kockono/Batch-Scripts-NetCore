@@ -169,7 +169,10 @@ mkdir dist\Commands\%%a\Commands
   echo         /// ^<summary^>
   echo         /// Initializes a new instance of the ^<see cref="Delete%%aCommandHandler"/^> class.
   echo         /// ^</summary^>
-  echo         /// ^<param ;
+  echo         /// <param name="ActionsTable">ActionsTable.</param>
+  echo         public Delete%%aCommand(ActionsTable id)
+  echo         {
+  echo             _id = id;
   echo         }
   echo: 
   echo         /// ^<summary^>
