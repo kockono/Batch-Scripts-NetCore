@@ -227,7 +227,6 @@ mkdir dist\Commands\%%a\Commands
   echo             }
   echo         }
   echo     }
-  echo 
   ) >   dist\Commands\%%a\Commands\Delete%%aCommand.cs
 
 @REM ------------------------------------------- Seccion de SUSPEND -------------------------------------------
