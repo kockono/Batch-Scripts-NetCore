@@ -208,18 +208,18 @@ mkdir dist\Commands\%%a\Commands
   echo             /// ^<param name="request"^>The request.^</param^>
   echo             /// ^<param name="cancellationToken"^>The cancellation token.^</param^>
   echo             /// ^<returns^>Result^</returns^>
-  echo              public async Task^<Result^> Handle^(DeleteGruposUsuariosCommand request, CancellationToken cancellationToken^)
+  echo              public async Task^<Result^> Handle^(Delete%%aCommand request, CancellationToken cancellationToken^)
   echo             {
   echo:                  
-  echo                 IEnumerable^<GruposUsuarios^> entitys = await _context.GruposUsuarios.Where^(o =^> request._id.Ids.Contains^(^(int^)o.Id^)^).ToListAsync(cancellationToken^);
-  echo                 foreach^(GruposUsuarios entity in entitys^)
+  echo                 IEnumerable^<%%a^> entitys = await _context.%%a.Where^(o =^> request._id.Ids.Contains^(^(int^)o.Id^)^).ToListAsync(cancellationToken^);
+  echo                 foreach^(%%a entity in entitys^)
   echo                 {
   echo                     entity.Status = -1;
   echo                 }
   echo:                   
   echo                 try
   echo                 {
-  echo                     _context.GruposUsuarios.UpdateRange^(entitys^);
+  echo                     _context.%%a.UpdateRange^(entitys^);
   echo                     await _context.SaveChangesAsync^(cancellationToken^);
   echo                     return Result.Success^(^);
   echo                 }
