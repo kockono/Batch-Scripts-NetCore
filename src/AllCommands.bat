@@ -1,22 +1,25 @@
 
 set idEntidad=Id
 
-:: Array de entidades
+@REM Array de entidades
 set entidades=UsuariosPreferencias preferenciasSistema
 
-:: Directorio de controladores
+@REM Directorio de controladores
 mkdir dist\Controllers
 
-:: Directorio de entidades
+@REM Directorio de entidades
 mkdir dist\Entidades
 
-:: %%w variable temporal que guarda la entidades dependiendo la posición
-(for %%w in (%entidades%) do (
+@REM Directorio de entidades
+mkdir dist\Models
 
-::  Creador de carpetas para los commandos
-mkdir dist\Commands\%%w\Commands
+@REM %%a variable temporal que guarda la entidades dependiendo la posición
+(for %%a in (%entidades%) do (
 
-:: ------------------------------------------- Seccion de CreateCommands -------------------------------------------
+@REM  Creador de carpetas para los commandos
+mkdir dist\Commands\%%a\Commands
+
+@REM ------------------------------------------- Seccion de CreateCommands -------------------------------------------
 
   (
   echo /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -39,35 +42,35 @@ mkdir dist\Commands\%%w\Commands
   echo using Delta.Application.Common.Interface;
   echo using Delta.Application.Common.Exceptions;
   echo:
-  echo namespace Delta.Application.%%wCommands
+  echo namespace Delta.Application.%%aCommands
   echo {
   echo     /// ^<summary^>
-  echo     /// Class Create%%wCommand.
+  echo     /// Class Create%%aCommand.
   echo     /// Implements the ^<see cref="MediatR.IRequest{Result}" /^>
   echo     /// ^</summary^>
   echo     /// ^<seealso cref="MediatR.IRequest{Result}"/^>
-  echo     public class Create%%wCommand : IRequest^<Result^>
+  echo     public class Create%%aCommand : IRequest^<Result^>
   echo     {
   echo         /// ^<summary^>
   echo         /// The model
   echo         /// ^</summary^>
-  echo         private readonly %%wModel _model;
+  echo         private readonly %%aModel _model;
   echo:         
   echo         /// ^<summary^>
-  echo         /// Initializes a new instance of the ^<see cref="Create%%wQueryHandler"/^> class.
+  echo         /// Initializes a new instance of the ^<see cref="Create%%aQueryHandler"/^> class.
   echo         /// ^</summary^>
-  echo         /// ^<param name="%%w"^>The model.^</param^>
-  echo         public Create%%wCommand^(%%wModel model^)
+  echo         /// ^<param name="%%a"^>The model.^</param^>
+  echo         public Create%%aCommand^(%%aModel model^)
   echo         {
   echo             _model = model;
   echo         }
   echo: 
   echo         /// ^<summary^>
-  echo         /// Class Create%%wQueryHandler.
-  echo         /// Implements the ^<see cref="MediatR.IRequestHandler{GetCampaignQuery,%%w}" /^>
+  echo         /// Class Create%%aQueryHandler.
+  echo         /// Implements the ^<see cref="MediatR.IRequestHandler{GetCampaignQuery,%%a}" /^>
   echo         /// ^</summary^>
-  echo         /// ^<seealso cref="MediatR.IRequestHandler{GetCampaignQuery, %%w}" /^>
-  echo         public class Create%%wQueryHandler : IRequestHandler^<Create%%wCommand, Result^>
+  echo         /// ^<seealso cref="MediatR.IRequestHandler{GetCampaignQuery, %%a}" /^>
+  echo         public class Create%%aQueryHandler : IRequestHandler^<Create%%aCommand, Result^>
   echo         {
   echo             /// ^<summary^>
   echo             /// The context
@@ -79,11 +82,11 @@ mkdir dist\Commands\%%w\Commands
   echo             private readonly IMapper _mapper;
   echo: 
   echo             /// ^<summary^>
-  echo             /// Initializes a new instance of the ^<see cref="Create%%wCommandHandler"/^> class.
+  echo             /// Initializes a new instance of the ^<see cref="Create%%aCommandHandler"/^> class.
   echo             /// ^</summary^>
   echo             /// ^<param name="context"^>The context.^</param^>
   echo             /// ^<param name="mapper"^>The mapper.^</param^>
-  echo             public Create%%wQueryHandler^(IApplicationDbContext context, IMapper mapper^)
+  echo             public Create%%aQueryHandler^(IApplicationDbContext context, IMapper mapper^)
   echo             {
   echo                 _context = context;
   echo                 _mapper = mapper;
@@ -95,16 +98,16 @@ mkdir dist\Commands\%%w\Commands
   echo             /// ^<param name="request"^>The request.^</param^>
   echo             /// ^<param name="cancellationToken"^>The cancellation token.^</param^>
   echo             /// ^<returns^>Result^</returns^>
-  echo             public async Task^<Result^> Handle^(Create%%wCommand request, CancellationToken cancellationToken^)
+  echo             public async Task^<Result^> Handle^(Create%%aCommand request, CancellationToken cancellationToken^)
   echo             {
   echo                 ValidationDataAnnotations validations = new ValidationDataAnnotations^(request._model^);
   echo: 
   echo                 if ^( validations.IsValid^(^) ^)
   echo                 {
-  echo                     %%w toInsert = _mapper.Map^<%%w^>^(request._model^);
+  echo                     %%a toInsert = _mapper.Map^<%%a^>^(request._model^);
   echo                     try
   echo                     {
-  echo                         await _context.%%w.AddAsync^(toInsert^);
+  echo                         await _context.%%a.AddAsync^(toInsert^);
   echo                         await _context.SaveChangesAsync^(cancellationToken^);
   echo                         return Result.Success^(^);
   echo                     }
@@ -121,9 +124,9 @@ mkdir dist\Commands\%%w\Commands
   echo         }
   echo     }
   echo }
-  ) >  dist\Commands\%%w\Commands\Create%%wCommand.cs
+  ) >  dist\Commands\%%a\Commands\Create%%aCommand.cs
 
-:: ------------------------------------------- Seccion de DeleteCommands -------------------------------------------
+@REM ------------------------------------------- Seccion de DeleteCommands -------------------------------------------
 
   (
   echo /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -146,14 +149,14 @@ mkdir dist\Commands\%%w\Commands
   echo using Delta.Application.Common.Models;
   echo using Delta.Application.Common.Interface;
   echo:
-  echo namespace Delta.Application.%%wCommands
+  echo namespace Delta.Application.%%aCommands
   echo {
   echo     /// ^<summary^>
-  echo     /// Class Delete%%wCommand.
+  echo     /// Class Delete%%aCommand.
   echo     /// Implements the ^<see cref="MediatR.IRequest{Result}" /^>
   echo     /// ^</summary^>
   echo     /// ^<seealso cref="MediatR.IRequest{Result}"/^>
-  echo     public class Delete%%wCommand : IRequest^<Result^>
+  echo     public class Delete%%aCommand : IRequest^<Result^>
   echo     {
   echo         /// ^<summary^>
   echo         /// The campaign model
@@ -161,17 +164,17 @@ mkdir dist\Commands\%%w\Commands
   echo         private readonly ActionsTable _id;
   echo:
   echo         /// ^<summary^>
-  echo         /// Initializes a new instance of the ^<see cref="Delete%%wCommandHandler"/^> class.
+  echo         /// Initializes a new instance of the ^<see cref="Delete%%aCommandHandler"/^> class.
   echo         /// ^</summary^>
   echo         /// ^<param ;
   echo         }
   echo: 
   echo         /// ^<summary^>
-  echo         /// Class Delete%%wCommandHandler.
-  echo         /// Implements the ^<see cref="MediatR.IRequestHandler{Delete%%wCommand,Result}" /^>
+  echo         /// Class Delete%%aCommandHandler.
+  echo         /// Implements the ^<see cref="MediatR.IRequestHandler{Delete%%aCommand,Result}" /^>
   echo         /// ^</summary^>
-  echo         /// ^<seealso cref="MediatR.IRequestHandler{Delete%%wCommand, Result}" /^>
-  echo         public class Delete%%wCommandHandler : IRequestHandler^<Delete%%wCommand, Result^>
+  echo         /// ^<seealso cref="MediatR.IRequestHandler{Delete%%aCommand, Result}" /^>
+  echo         public class Delete%%aCommandHandler : IRequestHandler^<Delete%%aCommand, Result^>
   echo         {
   echo             /// ^<summary^>
   echo             /// The context
@@ -183,11 +186,11 @@ mkdir dist\Commands\%%w\Commands
   echo             private readonly IMapper _mapper;
   echo: 
   echo             /// ^<summary^>
-  echo             /// Initializes a new instance of the ^<see cref="Delete%%wCommandHandler"/^> class.
+  echo             /// Initializes a new instance of the ^<see cref="Delete%%aCommandHandler"/^> class.
   echo             /// ^</summary^>
   echo             /// ^<param name="context"^>The context.^</param^>
   echo             /// ^<param name="mapper"^>The mapper.^</param^>
-  echo             public Delete%%wCommandHandler^(IApplicationDbContext context, IMapper mapper^)
+  echo             public Delete%%aCommandHandler^(IApplicationDbContext context, IMapper mapper^)
   echo             {
   echo                 _context = context;
   echo                 _mapper = mapper;
@@ -199,33 +202,32 @@ mkdir dist\Commands\%%w\Commands
   echo             /// ^<param name="request"^>The request.^</param^>
   echo             /// ^<param name="cancellationToken"^>The cancellation token.^</param^>
   echo             /// ^<returns^>Result^</returns^>
-  echo              public async Task<Result> Handle(DeleteGruposUsuariosCommand request, CancellationToken cancellationToken)
+  echo              public async Task^<Result^> Handle^(DeleteGruposUsuariosCommand request, CancellationToken cancellationToken^)
   echo             {
   echo:                  
-  echo                 IEnumerable<GruposUsuarios> entitys = await _context.GruposUsuarios.Where(o => request._id.Ids.Contains((int)o.Id)).ToListAsync(cancellationToken);
-  echo                 foreach(GruposUsuarios entity in entitys)
+  echo                 IEnumerable^<GruposUsuarios^> entitys = await _context.GruposUsuarios.Where^(o =^> request._id.Ids.Contains^(^(int^)o.Id^)^).ToListAsync(cancellationToken^);
+  echo                 foreach^(GruposUsuarios entity in entitys^)
   echo                 {
   echo                     entity.Status = -1;
   echo                 }
   echo:                   
   echo                 try
   echo                 {
-  echo                     _context.GruposUsuarios.UpdateRange(entitys);
-  echo                     await _context.SaveChangesAsync(cancellationToken);
-  echo                     return Result.Success();
+  echo                     _context.GruposUsuarios.UpdateRange^(entitys^);
+  echo                     await _context.SaveChangesAsync^(cancellationToken^);
+  echo                     return Result.Success^(^);
   echo                 }
-  echo                 catch (DbUpdateException ex)
+  echo                 catch ^(DbUpdateException ex^)
   echo                 {
-  echo                     return Result.Failure(new[]{ ex.Message });
+  echo                     return Result.Failure^(new[]{ ex.Message }^);
   echo                 }
   echo             }
   echo         }
   echo     }
-  echo }
   echo 
-  ) >   dist\Commands\%%w\Commands\Delete%%wCommand.cs
+  ) >   dist\Commands\%%a\Commands\Delete%%aCommand.cs
 
-:: ------------------------------------------- Seccion de SUSPEND -------------------------------------------
+@REM ------------------------------------------- Seccion de SUSPEND -------------------------------------------
 
   (
   echo /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -248,14 +250,14 @@ mkdir dist\Commands\%%w\Commands
   echo using Delta.Application.Common.Models;
   echo using Delta.Application.Common.Interface;
   echo:
-  echo namespace Delta.Application.%%wCommands
+  echo namespace Delta.Application.%%aCommands
   echo {
   echo     /// ^<summary^>
-  echo     /// Class Suspend%%wCommand.
+  echo     /// Class Suspend%%aCommand.
   echo     /// Implements the ^<see cref="MediatR.IRequest{Result}" /^>
   echo     /// ^</summary^>
   echo     /// ^<seealso cref="MediatR.IRequest{Result}"/^>
-  echo     public class Suspend%%wCommand : IRequest^<Result^>
+  echo     public class Suspend%%aCommand : IRequest^<Result^>
   echo     {
   echo         /// ^<summary^>
   echo         /// The campaign model
@@ -263,20 +265,20 @@ mkdir dist\Commands\%%w\Commands
   echo         private readonly ActionsTable _id; 
   echo:
   echo         /// ^<summary^>
-  echo         /// Initializes a new instance of the ^<see cref="Suspend%%wCommandHandler"/^> class.
+  echo         /// Initializes a new instance of the ^<see cref="Suspend%%aCommandHandler"/^> class.
   echo         /// ^</summary^>
-  echo         /// ^<param name="%%wModel"^>The campaign id.^</param^>
-  echo         public Suspend%%wCommand^(ActionsTable id^)
+  echo         /// ^<param name="%%aModel"^>The campaign id.^</param^>
+  echo         public Suspend%%aCommand^(ActionsTable id^)
   echo         {
   echo             _id = id;
   echo         }
   echo:
   echo         /// ^<summary^>
-  echo         /// Class Suspend%%wCommandHandler.
-  echo         /// Implements the ^<see cref="MediatR.IRequestHandler{Suspend%%wCommand,Result}" /^>
+  echo         /// Class Suspend%%aCommandHandler.
+  echo         /// Implements the ^<see cref="MediatR.IRequestHandler{Suspend%%aCommand,Result}" /^>
   echo         /// ^</summary^>
-  echo         /// ^<seealso cref="MediatR.IRequestHandler{Suspend%%wCommand, Result}" /^>
-  echo         public class Suspend%%wCommandHandler : IRequestHandler^<Suspend%%wCommand, Result^>
+  echo         /// ^<seealso cref="MediatR.IRequestHandler{Suspend%%aCommand, Result}" /^>
+  echo         public class Suspend%%aCommandHandler : IRequestHandler^<Suspend%%aCommand, Result^>
   echo         {
   echo             /// ^<summary^>
   echo             /// The context
@@ -288,11 +290,11 @@ mkdir dist\Commands\%%w\Commands
   echo             private readonly IMapper _mapper; 
   echo:
   echo             /// ^<summary^>
-  echo             /// Initializes a new instance of the ^<see cref="Suspend%%wCommandHandler"/^> class.
+  echo             /// Initializes a new instance of the ^<see cref="Suspend%%aCommandHandler"/^> class.
   echo             /// ^</summary^>
   echo             /// ^<param name="context"^>The context.^</param^>
   echo             /// ^<param name="mapper"^>The mapper.^</param^>
-  echo             public Suspend%%wCommandHandler^(IApplicationDbContext context, IMapper mapper^)
+  echo             public Suspend%%aCommandHandler^(IApplicationDbContext context, IMapper mapper^)
   echo             {
   echo                 _context = context;
   echo                 _mapper = mapper;
@@ -304,18 +306,18 @@ mkdir dist\Commands\%%w\Commands
   echo             /// ^<param name="request"^>The request.^</param^>
   echo             /// ^<param name="cancellationToken"^>The cancellation token.^</param^>
   echo             /// ^<returns^>Result^</returns^>
-  echo             public async Task^<Result^> Handle^(Suspend%%wCommand request, CancellationToken cancellationToken^)
+  echo             public async Task^<Result^> Handle^(Suspend%%aCommand request, CancellationToken cancellationToken^)
   echo             { 
   echo:
-  echo                 IEnumerable^<%%w^> entitys = await _context.%%w.Where^(o =^> request._id.Ids.Contains^(^(int^)o.%idEntidad%^)^).ToListAsync^(cancellationToken^);
-  echo                 foreach^(%%w entity in entitys^)
+  echo                 IEnumerable^<%%a^> entitys = await _context.%%a.Where^(o =^> request._id.Ids.Contains^(^(int^)o.%idEntidad%^)^).ToListAsync^(cancellationToken^);
+  echo                 foreach^(%%a entity in entitys^)
   echo                 {
   echo                     entity.Status = request._id.Action;
   echo                 }
   echo:                 
   echo                 try
   echo                 {
-  echo                     _context.%%w.UpdateRange^(entitys^);
+  echo                     _context.%%a.UpdateRange^(entitys^);
   echo                     await _context.SaveChangesAsync^(cancellationToken^);
   echo                     return Result.Success^(^);
   echo                 }
@@ -327,11 +329,11 @@ mkdir dist\Commands\%%w\Commands
   echo         }
   echo     }
   echo }
-  ) >  dist\Commands\%%w\Commands\Suspend%%wCommand.cs
-:: ------------------------------------------- Fin de SUSPEND -------------------------------------------
+  ) >  dist\Commands\%%a\Commands\Suspend%%aCommand.cs
+@REM ------------------------------------------- Fin de SUSPEND -------------------------------------------
 
 
-:: ------------------------------------------- Seccion de UPDATE -------------------------------------------
+@REM ------------------------------------------- Seccion de UPDATE -------------------------------------------
   (
   echo /////////////////////////////////////////////////////////////////////////////////////////////////
   echo //
@@ -353,35 +355,35 @@ mkdir dist\Commands\%%w\Commands
   echo using Delta.Application.Common.Interface;
   echo using Delta.Application.Common.Exceptions;
   echo: 
-  echo namespace Delta.Application.%%wCommands
+  echo namespace Delta.Application.%%aCommands
   echo {
   echo     /// ^<summary^>
   echo     /// Class GetDataQuery.
-  echo     /// Implements the ^<see cref="MediatR.IRequest{^(Result , %%wModel ^)}" /^>
+  echo     /// Implements the ^<see cref="MediatR.IRequest{^(Result , %%aModel ^)}" /^>
   echo     /// ^</summary^>
-  echo     /// ^<seealso cref="MediatR.IRequest{^(Result , %%wModel ^)"/^>
-  echo     public class Update%%wCommand : IRequest^<Result^>
+  echo     /// ^<seealso cref="MediatR.IRequest{^(Result , %%aModel ^)"/^>
+  echo     public class Update%%aCommand : IRequest^<Result^>
   echo     {
   echo         /// ^<summary^>
   echo         /// The model
   echo         /// ^</summary^>
-  echo         private readonly %%wModel _model;
+  echo         private readonly %%aModel _model;
   echo: 
   echo         /// ^<summary^>
-  echo         /// Initializes a new instance of the ^<see cref="Update%%wCommandHandler"/^> class.
+  echo         /// Initializes a new instance of the ^<see cref="Update%%aCommandHandler"/^> class.
   echo         /// ^</summary^>
-  echo         /// ^<param name="%%wModel"^>The model.^</param^>
-  echo         public Update%%wCommand^(%%wModel model^)
+  echo         /// ^<param name="%%aModel"^>The model.^</param^>
+  echo         public Update%%aCommand^(%%aModel model^)
   echo         {
   echo             _model = model;
   echo         }
   echo: 
   echo         /// ^<summary^>
-  echo         /// Class Update%%wCommandHandler.
-  echo         /// Implements the ^<see cref="MediatR.IRequestHandler{Update%%wCommand,model}" /^>
+  echo         /// Class Update%%aCommandHandler.
+  echo         /// Implements the ^<see cref="MediatR.IRequestHandler{Update%%aCommand,model}" /^>
   echo         /// ^</summary^>
-  echo         /// ^<seealso cref="MediatR.IRequestHandler{Update%%wCommand, model}" /^>
-  echo         public class Update%%wCommandHandler : IRequestHandler^<Update%%wCommand, Result^>
+  echo         /// ^<seealso cref="MediatR.IRequestHandler{Update%%aCommand, model}" /^>
+  echo         public class Update%%aCommandHandler : IRequestHandler^<Update%%aCommand, Result^>
   echo         {
   echo             /// ^<summary^>
   echo             /// The context
@@ -393,11 +395,11 @@ mkdir dist\Commands\%%w\Commands
   echo             private readonly IMapper _mapper;
   echo: 
   echo             /// ^<summary^>
-  echo             /// Initializes a new instance of the ^<see cref="Update%%wCommandHandler"/^> class.
+  echo             /// Initializes a new instance of the ^<see cref="Update%%aCommandHandler"/^> class.
   echo             /// ^</summary^>
   echo             /// ^<param name="context"^>The context.^</param^>
   echo             /// ^<param name="mapper"^>The mapper.^</param^>
-  echo             public Update%%wCommandHandler^(IApplicationDbContext context, IMapper mapper^)
+  echo             public Update%%aCommandHandler^(IApplicationDbContext context, IMapper mapper^)
   echo             {
   echo                 _context = context;
   echo                 _mapper = mapper;
@@ -409,18 +411,18 @@ mkdir dist\Commands\%%w\Commands
   echo             /// ^<param name="request"^>The request.^</param^>
   echo             /// ^<param name="cancellationToken"^>The cancellation token.^</param^>
   echo             /// ^<returns^>Result^</returns^>
-  echo             public async Task^<Result^> Handle^(Update%%wCommand request, CancellationToken cancellationToken^)
+  echo             public async Task^<Result^> Handle^(Update%%aCommand request, CancellationToken cancellationToken^)
   echo             {
   echo: 
   echo                 ValidationDataAnnotations validations = new ValidationDataAnnotations^(request._model^);
   echo: 
   echo                 if ^( validations.IsValid^(^) ^)
   echo                 {                  
-  echo                     %%w entity = _mapper.Map^<%%w^>^(request._model^);
+  echo                     %%a entity = _mapper.Map^<%%a^>^(request._model^);
   echo:                     
   echo                     try
   echo                     {
-  echo                         _context.%%w.Update^(entity^);
+  echo                         _context.%%a.Update^(entity^);
   echo                         await _context.SaveChangesAsync^(cancellationToken^);                        
   echo: 
   echo                         return Result.Success^(^);
@@ -435,16 +437,15 @@ mkdir dist\Commands\%%w\Commands
   echo                     return Result.Failure^(validations.Errors^(^)^);
   echo                 }
   echo             }
-echo         }
-echo     }
-echo }
-:: Guardalos ene l siguiente estino con la extension .cs
-) >  dist\Commands\%%w\Commands\Update%%wCommand.cs 
+  echo         }
+  echo     }
+  echo }
+) >  dist\Commands\%%a\Commands\Update%%aCommand.cs 
 
 
-mkdir dist\Commands\%%w\Querys
+mkdir dist\Commands\%%a\Querys
 
-:: ------------------------------------------- Seccion de get All Data -------------------------------------------
+@REM ------------------------------------------- Seccion de get All Data -------------------------------------------
 
   (
   echo /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -468,21 +469,21 @@ mkdir dist\Commands\%%w\Querys
   echo using Delta.Application.Common.Models;
   echo using Delta.Application.Common.Interface;
   echo: 
-  echo namespace Delta.Application.%%wCommands
+  echo namespace Delta.Application.%%aCommands
   echo {
   echo     /// ^<summary^>
-  echo     /// Class Get%%wQuery.
-  echo     /// Implements the ^<see cref="MediatR.IRequest{ List{%%wModel}} " /^>
+  echo     /// Class Get%%aQuery.
+  echo     /// Implements the ^<see cref="MediatR.IRequest{ List{%%aModel}} " /^>
   echo     /// ^</summary^>
-  echo     /// ^<seealso cref="MediatR.IRequest{ List{%%wModel}} " /^>
-  echo     public class Get%%wQuery : IRequest^<List^<%%wModel^>^>
+  echo     /// ^<seealso cref="MediatR.IRequest{ List{%%aModel}} " /^>
+  echo     public class Get%%aQuery : IRequest^<List^<%%aModel^>^>
   echo     {
   echo         /// ^<summary^>
-  echo         /// Class Get%%wQueryHandler.
-  echo         /// Implements the ^<see cref="MediatR.IRequestHandler{Get%%wQuery,  List{%%wModel}} " /^>
+  echo         /// Class Get%%aQueryHandler.
+  echo         /// Implements the ^<see cref="MediatR.IRequestHandler{Get%%aQuery,  List{%%aModel}} " /^>
   echo         /// ^</summary^>
-  echo         /// ^<seealso cref="MediatR.IRequestHandler{Get%%wQuery,  List{%%wModel}} " /^>
-  echo         public class Get%%wQueryHandler : IRequestHandler^<Get%%wQuery, List^<%%wModel^>^>
+  echo         /// ^<seealso cref="MediatR.IRequestHandler{Get%%aQuery,  List{%%aModel}} " /^>
+  echo         public class Get%%aQueryHandler : IRequestHandler^<Get%%aQuery, List^<%%aModel^>^>
   echo         {
   echo             /// ^<summary^>
   echo             /// The context
@@ -495,11 +496,11 @@ mkdir dist\Commands\%%w\Querys
   echo             private readonly IMapper _mapper;
   echo: 
   echo             /// ^<summary^>
-  echo             /// Initializes a new instance of the ^<see cref="Get%%wQueryHandler"/^> class.
+  echo             /// Initializes a new instance of the ^<see cref="Get%%aQueryHandler"/^> class.
   echo             /// ^</summary^>
   echo             /// ^<param name="context"^>The context.^</param^>
   echo             /// ^<param name="mapper"^>The mapper.^</param^>
-  echo             public Get%%wQueryHandler^(IApplicationDbContext context, IMapper mapper^)
+  echo             public Get%%aQueryHandler^(IApplicationDbContext context, IMapper mapper^)
   echo             {
   echo                 _context = context;
   echo                 _mapper = mapper;
@@ -510,20 +511,20 @@ mkdir dist\Commands\%%w\Querys
   echo             /// ^</summary^>
   echo             /// ^<param name="request"^>The request.^</param^>
   echo             /// ^<param name="cancellationToken"^>The cancellation token.^</param^>
-  echo             /// ^<returns^>Task&lt;List&lt;%%wModel&gt;&gt;.^</returns^>
-  echo             public async Task^<List^<%%wModel^>^> Handle^(Get%%wQuery request, CancellationToken cancellationToken^)
+  echo             /// ^<returns^>Task&lt;List&lt;%%aModel&gt;&gt;.^</returns^>
+  echo             public async Task^<List^<%%aModel^>^> Handle^(Get%%aQuery request, CancellationToken cancellationToken^)
   echo             {
-  echo                 IQueryable^<%%w^> datas = _context.%%w.Where^( l =^> l.Status != -1 ^); 
-  echo                 List^<%%wModel^> datasResult = await datas.ProjectTo^<%%wModel^>^(_mapper.ConfigurationProvider^).ToListAsync^(cancellationToken^);
+  echo                 IQueryable^<%%a^> datas = _context.%%a.Where^( l =^> l.Status != -1 ^); 
+  echo                 List^<%%aModel^> datasResult = await datas.ProjectTo^<%%aModel^>^(_mapper.ConfigurationProvider^).ToListAsync^(cancellationToken^);
   echo: 
   echo                 return datasResult;
   echo             }
   echo         }
   echo     }
   echo }
-  ) >  dist\Commands\%%w\Querys\Get%%wQuery.cs
+  ) >  dist\Commands\%%a\Querys\Get%%aQuery.cs
 
-:: ------------------------------------------- Get Data ById -------------------------------------------
+@REM ------------------------------------------- Get Data ById -------------------------------------------
 
   
   (
@@ -546,14 +547,14 @@ mkdir dist\Commands\%%w\Querys
   echo using Delta.Application.Common.Models;
   echo using Delta.Application.Common.Interface;
   echo: 
-  echo namespace Delta.Application.%%wCommands
+  echo namespace Delta.Application.%%aCommands
   echo {
   echo     /// ^<summary^>
-  echo     /// Class Get%%wByIdQuery.
-  echo     /// Implements the ^<see cref="MediatR.IRequest{ List{%%wModel}} " /^>
+  echo     /// Class Get%%aByIdQuery.
+  echo     /// Implements the ^<see cref="MediatR.IRequest{ List{%%aModel}} " /^>
   echo     /// ^</summary^>
-  echo     /// ^<seealso cref="MediatR.IRequest{ List{%%wModel}} " /^>
-  echo     public class Get%%wByIdQuery : IRequest^<%%wModel^>
+  echo     /// ^<seealso cref="MediatR.IRequest{ List{%%aModel}} " /^>
+  echo     public class Get%%aByIdQuery : IRequest^<%%aModel^>
   echo     {
   echo         /// ^<summary^>
   echo         /// The model
@@ -561,20 +562,20 @@ mkdir dist\Commands\%%w\Querys
   echo         private readonly int _id;
   echo: 
   echo         /// ^<summary^>
-  echo         /// Initializes a new instance of the ^<see cref="Get%%wByIdQueryHandler"/^> class.
+  echo         /// Initializes a new instance of the ^<see cref="Get%%aByIdQueryHandler"/^> class.
   echo         /// ^</summary^>
-  echo         /// ^<param name="%%wModel"^>The model.^</param^>
-  echo         public Get%%wByIdQuery^(int id^)
+  echo         /// ^<param name="%%aModel"^>The model.^</param^>
+  echo         public Get%%aByIdQuery^(int id^)
   echo         {
   echo             _id = id;
   echo         }
   echo: 
   echo         /// ^<summary^>
-  echo         /// Class Get%%wByIdQueryHandler.
-  echo         /// Implements the ^<see cref="MediatR.IRequestHandler{Get%%wByIdQuery,  List{%%wModel}} " /^>
+  echo         /// Class Get%%aByIdQueryHandler.
+  echo         /// Implements the ^<see cref="MediatR.IRequestHandler{Get%%aByIdQuery,  List{%%aModel}} " /^>
   echo         /// ^</summary^>
-  echo         /// ^<seealso cref="MediatR.IRequestHandler{Get%%wByIdQuery,  List{%%wModel}} " /^>
-  echo         public class Get%%wByIdQueryHandler : IRequestHandler^<Get%%wByIdQuery, %%wModel^>
+  echo         /// ^<seealso cref="MediatR.IRequestHandler{Get%%aByIdQuery,  List{%%aModel}} " /^>
+  echo         public class Get%%aByIdQueryHandler : IRequestHandler^<Get%%aByIdQuery, %%aModel^>
   echo         {
   echo             /// ^<summary^>
   echo             /// The context
@@ -586,11 +587,11 @@ mkdir dist\Commands\%%w\Querys
   echo             private readonly IMapper _mapper;
   echo: 
   echo             /// ^<summary^>
-  echo             /// Initializes a new instance of the ^<see cref="Get%%wByIdQueryHandler"/^> class.
+  echo             /// Initializes a new instance of the ^<see cref="Get%%aByIdQueryHandler"/^> class.
   echo             /// ^</summary^>
   echo             /// ^<param name="context"^>The context.^</param^>
   echo             /// ^<param name="mapper"^>The mapper.^</param^>
-  echo             public Get%%wByIdQueryHandler^(IApplicationDbContext context, IMapper mapper^)
+  echo             public Get%%aByIdQueryHandler^(IApplicationDbContext context, IMapper mapper^)
   echo             {
   echo                 _context = context;
   echo                 _mapper = mapper;
@@ -601,20 +602,20 @@ mkdir dist\Commands\%%w\Querys
   echo             /// ^</summary^>
   echo             /// ^<param name="request"^>The request.^</param^>
   echo             /// ^<param name="cancellationToken"^>The cancellation token.^</param^>
-  echo             /// ^<returns^>Task&lt;List&lt;%%wModel&gt;&gt;.^</returns^>
-  echo             public async Task^<%%wModel^> Handle^(Get%%wByIdQuery request, CancellationToken cancellationToken^)
+  echo             /// ^<returns^>Task&lt;List&lt;%%aModel&gt;&gt;.^</returns^>
+  echo             public async Task^<%%aModel^> Handle^(Get%%aByIdQuery request, CancellationToken cancellationToken^)
   echo             {
-  echo                 %%w datas = await _context.%%w.FirstOrDefaultAsync^( l =^> l.%idEntidad% == request._id ,cancellationToken^);
-  echo                 %%wModel datasResult = _mapper.Map^<%%wModel^>^(datas^);
+  echo                 %%a datas = await _context.%%a.FirstOrDefaultAsync^( l =^> l.%idEntidad% == request._id ,cancellationToken^);
+  echo                 %%aModel datasResult = _mapper.Map^<%%aModel^>^(datas^);
   echo: 
   echo                 return datasResult;
   echo             }
   echo         }
   echo     }
   echo }
-  ) >  dist\Commands\%%w\Querys\Get%%wById.cs
+  ) >  dist\Commands\%%a\Querys\Get%%aById.cs
 
-:: ------------------------------------------- Seccion de Controllers ------------------------------------------- 
+@REM ------------------------------------------- Seccion de Controllers ------------------------------------------- 
 
   (
   echo /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -630,14 +631,14 @@ mkdir dist\Commands\%%w\Querys
   echo using Microsoft.AspNetCore.Mvc;
   echo using System.Collections.Generic;
   echo using Delta.Application.Common.Models;
-  echo using Delta.Application.%%wCommands;
+  echo using Delta.Application.%%aCommands;
   echo: 
   echo namespace Delta.Api.Controllers
   echo {
   echo     /// ^<summary^>
   echo     /// Controlador para las llamadas de los metodos existenes.
   echo     /// ^</summary^>
-  echo     public class %%wController : ApiController
+  echo     public class %%aController : ApiController
   echo     {
   echo         /// ^<summary^>
   echo         /// Obtiene el listado de las campañas activas en el sistema
@@ -646,7 +647,7 @@ mkdir dist\Commands\%%w\Querys
   echo         [HttpGet]
   echo         public async Task^<IActionResult^> Get^(^)
   echo         {
-  echo             List^<%%wModel^> result = await Mediator.Send^(new Get%%wQuery^(^)^);
+  echo             List^<%%aModel^> result = await Mediator.Send^(new Get%%aQuery^(^)^);
   echo             return Ok^(result^);
   echo         }
   echo: 
@@ -657,7 +658,7 @@ mkdir dist\Commands\%%w\Querys
   echo         [HttpGet^("getOptions"^)]
   echo         public async Task^<IActionResult^> GetOptions^(^)
   echo         {
-  echo             List^<%%wModel^> result = await Mediator.Send^(new Get%%wQuery^(^)^);
+  echo             List^<%%aModel^> result = await Mediator.Send^(new Get%%aQuery^(^)^);
   echo             return Ok^(result^);
   echo         }
   echo: 
@@ -668,7 +669,7 @@ mkdir dist\Commands\%%w\Querys
   echo         [HttpGet^("getbyid/{id:int}"^)]
   echo         public async Task^<IActionResult^> GetById^(int id^)
   echo         {
-  echo             %%wModel result = await Mediator.Send^(new Get%%wByIdQuery^(id^)^);
+  echo             %%aModel result = await Mediator.Send^(new Get%%aByIdQuery^(id^)^);
   echo             return Ok^(result^);
   echo         }
   echo: 
@@ -678,9 +679,9 @@ mkdir dist\Commands\%%w\Querys
   echo         /// ^<param name="model"^>la entrada que queremos crear^</param^>
   echo         /// ^<returns^> Devuelve Ok si se pudo realizar la operacion. Devuelve un NotFound si no se fue posible^</returns^>
   echo         [HttpPost^("create"^)]
-  echo         public async Task^<Result^> Create%%w^(%%wModel model^)
+  echo         public async Task^<Result^> Create%%a^(%%aModel model^)
   echo         {
-  echo             return await Mediator.Send^(new Create%%wCommand^(model^)^);
+  echo             return await Mediator.Send^(new Create%%aCommand^(model^)^);
   echo         }
   echo: 
   echo         /// ^<summary^>
@@ -688,19 +689,19 @@ mkdir dist\Commands\%%w\Querys
   echo         /// ^</summary^>
   echo         /// ^<returns^>^</returns^>
   echo         [HttpPost^("update"^)]
-  echo         public async Task^<Result^> Update%%w^(%%wModel model^)
+  echo         public async Task^<Result^> Update%%a^(%%aModel model^)
   echo         {
-  echo             Result result = await Mediator.Send^(new Update%%wCommand^(model^)^);
+  echo             Result result = await Mediator.Send^(new Update%%aCommand^(model^)^);
   echo: 
   echo             return result;
   echo         }
   echo     }
   echo }
-  ) > dist\Controllers\%%wController.cs
+  ) > dist\Controllers\%%aController.cs
 
-:: ------------------------------------------- Seccion de Configuration ------------------------------------------- 
+@REM ------------------------------------------- Seccion de Configuration ------------------------------------------- 
 
-:: --------------------------------------------- Seccion de Entidades --------------------------------------------- 
+@REM --------------------------------------------- Seccion de Entidades --------------------------------------------- 
 
 (
 echo /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -717,16 +718,16 @@ echo using System.ComponentModel.DataAnnotations.Schema;
 echo:
 echo namespace Delta.Domain.Entities
 echo {
-echo     public class %%w
+echo     public class %%a
 echo     {
 echo       public long     Id { get; set; }
 echo:
 echo       public int      Status { get; set; }
 echo     }
 echo }
-) >  dist\Entidades\%%w.cs
+) >  dist\Entidades\%%a.cs
 
-:: --------------------------------------------- Seccion de Models -- ---------------------------------------------
+@REM --------------------------------------------- Seccion de Models -- ---------------------------------------------
 
 (
 echo /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -745,14 +746,14 @@ echo using Delta.Application.Common.Interface;
 echo: 
 echo namespace Delta.Application.Common.Models
 echo {
-echo     public class %%wModel : IMapFrom^<%%w>
+echo     public class %%aModel : IMapFrom^<%%a^>
 echo     {
 echo       public long     Id { get; set; }
 echo: 
 echo       public int      Status { get; set; }
 echo     }
 echo }
-) >  dist\Entidades\%%w.cs
+) >  dist\Models\%%a.cs
 
 ))
-
+@REM Fin del ciclo for

@@ -33,4 +33,4 @@ echo       public DateTime FechaDeActualizacion  { get; set; }
 echo       public int      Status { get; set; }
 echo     }
 echo }
-) > Models/%entidad%Model.cs
+) > %entidad%Model.cs
