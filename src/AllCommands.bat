@@ -10,6 +10,9 @@ mkdir dist\Controllers
 @REM Directorio de entidades
 mkdir dist\Entidades
 
+@REM Directorio de Configuraciones
+mkdir dist\Configuration
+
 @REM Directorio de entidades
 mkdir dist\Models
 
@@ -755,5 +758,52 @@ echo     }
 echo }
 ) >  dist\Models\%%aModel.cs
 
+
+@REM --------------------------------------------- Seccion de Configuration ----------------------------------------------
+  (
+  echo /////////////////////////////////////////////////////////////////////////////////////////////////
+  echo //
+  echo // Centinela
+  echo //
+  echo // Copyright ^(c^) 2022, Centinela. Todos los derechos reservados.
+  echo // Este archivo es confidencial de Centinela. No distribuir.
+  echo //
+  echo // Developers : Chris Marquez
+  echo:  
+  echo using Delta.Domain.Entities;
+  echo using Microsoft.EntityFrameworkCore;
+  echo using Microsoft.EntityFrameworkCore.Metadata.Builders;
+  echo:  
+  echo namespace Delta.Infrastructure.Persistence.Configurations
+  echo {
+  echo     /// ^<summary^>
+  echo     /// Clase de configuración
+  echo     /// ^</summary^>
+  echo     class %%aConfiguration : IEntityTypeConfiguration^<%%a^>
+  echo     {
+  echo         /// ^<summary^>
+  echo         /// Implementa la configuración
+  echo         /// ^</summary^>
+  echo         /// ^<param name="entity"^> objeto que compila la configuración y la lleva a cabo ^</param^>
+  echo         public void Configure^(EntityTypeBuilder^<%%a^> entity^)
+  echo         {
+  echo             entity.HasKey^(e =^> e.Id^).HasName^("%%a_pkey"^);
+  echo:             
+  echo             entity.Property^(e =^> e.Id^)
+  echo                 .ValueGeneratedOnAdd^(^);
+  echo: 
+  echo             entity.ToTable^("%%a"^);
+  echo             entity.HasComment^("Id consecutiva que otorga el sistema"^);
+  echo:
+  echo              entity.Property^(e =^> e.Status^) 
+  echo                  .HasColumnName^("status"^)
+  echo                  .HasColumnType^("bigint"^)
+  echo                  .HasComment^("1 = Activo, 0 = Inactivo, -1 Eliminado"^); 
+  echo: 
+  echo:                  
+  echo         }
+  echo     }
+  echo }
+  ) >  dist\Configuration\%%a.cs
 ))
 @REM Fin del ciclo for
