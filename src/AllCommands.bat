@@ -2,7 +2,7 @@
 set idEntidad=Id
 
 @REM Array de entidades
-set entidades=UsuariosPreferencias PreferenciasSistema
+set entidades=Plantas Arboles Comida Agua 
 
 @REM Directorio de controladores
 mkdir dist\Controllers
@@ -169,8 +169,8 @@ mkdir dist\Commands\%%a\Commands
   echo         /// ^<summary^>
   echo         /// Initializes a new instance of the ^<see cref="Delete%%aCommandHandler"/^> class.
   echo         /// ^</summary^>
-  echo         /// <param name="ActionsTable">ActionsTable.</param>
-  echo         public Delete%%aCommand(ActionsTable id)
+  echo         /// ^<param name="ActionsTable"^>ActionsTable.^</param^>
+  echo         public Delete%%aCommand^(ActionsTable id^)
   echo         {
   echo             _id = id;
   echo         }
@@ -704,8 +704,6 @@ mkdir dist\Commands\%%a\Querys
   echo }
   ) > dist\Controllers\%%aController.cs
 
-@REM ------------------------------------------- Seccion de Configuration ------------------------------------------- 
-
 @REM --------------------------------------------- Seccion de Entidades --------------------------------------------- 
 
 (
@@ -808,4 +806,5 @@ echo }
   echo }
   ) >  dist\Configuration\%%aConfiguration.cs
 ))
+pause
 @REM Fin del ciclo for
