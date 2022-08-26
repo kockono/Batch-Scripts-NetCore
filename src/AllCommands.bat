@@ -2,7 +2,7 @@
 set idEntidad=Id
 
 @REM Array de entidades
-set entidades=Plantas Arboles Comida Agua 
+set entidades=UsuariosPreferencias
 
 @REM Directorio de controladores
 mkdir dist\Controllers
@@ -230,6 +230,7 @@ mkdir dist\Commands\%%a\Commands
   echo             }
   echo         }
   echo     }
+  echo }
   ) >   dist\Commands\%%a\Commands\Delete%%aCommand.cs
 
 @REM ------------------------------------------- Seccion de SUSPEND -------------------------------------------
